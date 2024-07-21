@@ -1,0 +1,104 @@
+/* stylesheet for to-do task */
+
+body {
+    height: 98vh;
+    width: 98vw;
+    display: grid;
+    grid-template-rows: 50px minmax(500px, 1fr) 30px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    gap: 2em;
+    background-color: azure;
+}
+
+h1 {
+    display: inline;
+    text-shadow: #777;
+    text-decoration-line: line-through;
+}
+
+header {
+    border-bottom: 2px dashed;
+}
+
+#addTask {
+    margin-bottom: 30px;
+    width: 10%;
+    font: inherit;
+    background-color: azure;
+    transition: .5s;
+}
+
+#addTask::before {
+    content: '';
+    margin-bottom: 30px;
+    width: 10%;
+    font: inherit;
+    background-color: azure;
+    transition: .5s;
+    transform: scale(.9);
+    z-index: -1;
+}
+
+#addTask:hover::before {
+    transform: scale(1.1);
+    background-color: black;
+    color: azure;
+}
+
+#addTask:hover {
+    color: azure;
+    background-color: black;
+    text-shadow: 0 0 5px azure;
+}
+
+form {
+    display: flex;
+    gap: 2em;
+    justify-content: center;
+    align-items: flex-end;
+    border: 2px dotted;
+}
+
+input, select {
+    font: inherit;
+    height: 2em;
+    font-size: large;
+    font-weight: bolder;
+    text-align: center;
+    border: none;
+    background-color: azure;
+}
+
+input, select {
+    border-bottom: 1px solid lightgrey;
+}
+
+input:disabled, select:disabled {
+    background-color: azure;
+    color: black;
+    border: none;
+}
+
+select:invalid, input[type='datetime-local']:invalid {
+    color: #777;
+}
+
+img {
+    width: 15px;
+    height: auto;
+}
+
+button[class='save'], button[class='edit'], button[class='delete'] {
+    border: none;
+    width: 25px;
+    height: 25px;
+    background-color: azure;
+}
+
+#tasksContainer {
+    display: grid;
+    justify-content: center;
+    gap: 2em;
+}

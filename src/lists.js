@@ -36,7 +36,7 @@ export default taskList;
 // with a few changed in variable names
 // the listOfTasks needs to change to taskList and the imported modules
 // need an alias for the capitalized T "TaskList" in the class name to match
-// the exported function name
+// the referenced function name
 
 class TaskList {
     static listOfTasks = [];

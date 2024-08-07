@@ -1,76 +1,7 @@
-class Task {
-    constructor({title, description, dueDate, priority}) {
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority;
-    }
-
-    get getTitle() {
-        return this.title;
-    }
-    set setTitle(newTitle) {
-        this.title = newTitle;
-    }
-    get getDescription() {
-        return this.description;
-    }
-    set setDescription(newDescription) {
-        this.description = newDescription;
-    }
-    get getDate() {
-        return this.dueDate;
-    }
-    set setDate(newDate) {
-        this.dueDate = newDate;
-    }
-    get getPriority() {
-        return this.priority;
-    }
-    set setPriority(newPriority) {
-        this.priority = newPriority;
-    }
-}
-
-const taskList = (function (task) {
-    const taskList = [];
-
-    function addInList(task) {
-        taskList.push(task);
-    }
-
-    function removeFromList(findTask) {
-        const foundTask = (function(findTask) {
-            for(let i=0; i<taskList.length; i++) {
-                const task = taskList[i];
-                if(Object.keys(findTask).every( 
-                    key => task[key] == findTask[key]))
-                    return i;
-                else
-                    return false;
-            }
-        });
-        console.log(foundTask);
-
-        if(foundTask !== false){
-            taskList.splice(foundTask, 1);
-            console.log("task removed");
-        }
-    }
-    
-    function getAllTasks() {
-        const tasks = taskList;
-        return tasks;
-    }
-
-    return { addInList, removeFromList, getAllTasks };
-})();
-
-
-const taskSection = document.querySelector('#taskSection');
-const addTask = document.querySelector('#addTask');
-
-addTask.onclick = createTask;
+import edit from './assets/edit.png';
+import save from './assets/save.png';
+import del from './assets/trash.png';
+import taskList from './lists';
 
 function createTask() {
     const taskForm = document.createElement('form');
@@ -82,7 +13,7 @@ function createTask() {
     const optionHighPriority = document.createElement('option')
     const optionNormalPriority = document.createElement('option')
     const optionLowPriority = document.createElement('option')
-    const actionButtons = addSaveEditButtons(taskForm);
+    const actionButtons = addActionButtons(taskForm);
 
     setAttributes(title, {
         "type": "text",
@@ -99,17 +30,24 @@ function createTask() {
     setAttributes(dueDate, {
         "type":"datetime-local",
         "name": "dueDate",
-        "placeholder": "Due Date"
+        "placeholder": "Due Date",
+        "value": "",
+        "required": true
     });
 
-    priority.setAttribute("name", "priority");
+    setAttributes(priority, {
+        "name": "priority",
+        "required": true
+    });
 
     setAttributes(optionDefaultPriority, {
         "disabled": true,
         "selected": true,
-        "hidden": true
+        "hidden": true,
+        "value": ""
     });
 
+    optionDefaultPriority.textContent = "Priority";
     optionHighPriority.setAttribute("value", "High");
     optionNormalPriority.setAttribute("value", "Normal");
     optionLowPriority.setAttribute("value", "Low");
@@ -118,24 +56,30 @@ function createTask() {
     optionLowPriority.textContent = "Low";
 
     priority.append(optionDefaultPriority, optionHighPriority, optionNormalPriority, optionLowPriority);
+    taskForm.append(title, description, dueDate, priority, actionButtons[0], actionButtons[1], actionButtons[2]);
+    document.querySelector('#tasksContainer').appendChild(taskForm);
 
-    taskForm.append(title, description, dueDate, priority, actionButtons[0], actionButtons[1]);
-    taskSection.appendChild(taskForm);
+    return { taskForm, title, description, dueDate, priority, actionButtons };
 }
 
-function addSaveEditButtons(form) {
+function addActionButtons(form) {
     
     const saveButton = document.createElement('button');
     const editButton = document.createElement('button');
+    const deleteButton = document.createElement('button');
     
     setAttributes(saveButton, {
-        'class': 'save project',
+        'class': 'save',
         'type': 'submit'
     });
     setAttributes(editButton, {
         'hidden': true,
-        'class': 'edit project',
+        'class': 'edit',
         'type': 'submit'
+    });
+    setAttributes(deleteButton, {
+        'class': 'delete',
+        'type': 'button'
     });
 
     saveButton.addEventListener('click', (event) => {
@@ -150,6 +94,7 @@ function addSaveEditButtons(form) {
         editButton.hidden = false;
         saveButton.setAttribute('hidden', true);
         console.log(taskList.getAllTasks());
+        storeTasks(taskList.getAllTasks());
     });
 
     editButton.addEventListener('click', (event) => {
@@ -158,24 +103,38 @@ function addSaveEditButtons(form) {
             child.disabled = false;
         const formData = new FormData(form);
         const formDataObject = Object.fromEntries(formData.entries());
-        // const findTask = new Task (formDataObject);
         taskList.removeFromList(formDataObject);
-        console.log(taskList.getAllTasks());
         editButton.hidden = true;
         saveButton.hidden = false;
     });
 
+    deleteButton.addEventListener('click', () => {
+        if(confirm("Delete for sure?")) {
+            for(const child of form.children)
+                child.disabled = false;
+            const formData = new FormData(form);
+            const formDataObject = Object.fromEntries(formData.entries());
+            taskList.removeFromList(formDataObject);
+            form.innerHTML = '';
+            form.remove();
+            storeTasks(taskList.getAllTasks());
+        }
+    });
+
     const saveIcon = document.createElement('img');
     const editIcon = document.createElement('img');
-
-    saveIcon.src = './assets/save.png';
+    const delIcon = document.createElement('img');
+    saveIcon.src = save;
     saveIcon.alt = 'save';
-    saveButton.appendChild(saveIcon);    
-    editIcon.src = './assets/edit.png';
+    saveButton.appendChild(saveIcon);
+    editIcon.src = edit;
     editIcon.alt = 'edit';
     editButton.appendChild(editIcon);
+    delIcon.src = del;
+    delIcon.alt = 'delete';
+    deleteButton.appendChild(delIcon);
 
-    return [saveButton, editButton];
+    return [saveButton, editButton, deleteButton];
 }
 
 function setAttributes(element, attributes) {
@@ -183,3 +142,37 @@ function setAttributes(element, attributes) {
         element.setAttribute(key, attributes[key]);
     }
 }
+
+function storeTasks(tasks) {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function loadData() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    document.querySelector('#tasksContainer').innerHTML = '';
+    for(const task of tasks) {
+        taskList.addInList(task);
+        const taskFields = createTask();
+        populateValues(taskFields, task);
+        disableFields(taskFields);
+        taskFields.actionButtons[0].hidden = true;
+        taskFields.actionButtons[1].hidden = false;
+    };
+}
+
+function populateValues(target, source) {
+    target.title.value = source.title;
+    target.description.value = source.description;
+    target.dueDate.value = source.dueDate;
+    target.priority.value = source.priority;
+}
+
+function disableFields(fieldSet) {
+    fieldSet.title.disabled = true;
+    fieldSet.description.disabled = true;
+    fieldSet.dueDate.disabled = true;
+    fieldSet.priority.disabled = true;
+}
+
+
+export { createTask, loadData };

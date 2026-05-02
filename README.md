@@ -155,7 +155,8 @@ All tasks are automatically saved to your browser's localStorage.
 Mritesh Adak - mriteshadak@outlook.com
 
 Project Link: [https://github.com/MriteshAdak/To-Do-List](https://github.com/MriteshAdak/To-Do-List)
-<a href="https://www.linkedin.com/in/mritesh-adak-8b7439106/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+
+<a href="https://www.linkedin.com/in/mriteshadak/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

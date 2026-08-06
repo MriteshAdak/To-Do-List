@@ -126,7 +126,7 @@ webpack.config.js     # Webpack configuration (includes ts-loader)
 
 4. Once the development server is live, open your browser and navigate to the local server address (typically `http://localhost:8080`)
 
-NOTE: The built distribution files are already inside `dist/`. You can alternatively just download this repository and open `index.html` from the `dist/` in a browser to check the application.
+NOTE: The built distribution files are already inside `dist/`. You can alternatively just download this repository and open `index.html` from the `dist/` folder in a browser to check the application.
 
 
 ### Usage

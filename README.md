@@ -39,19 +39,20 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-A local task management application designed to help you organize and track your to-do items with ease. Create tasks with detailed information, set priorities, assign due dates and times, and manage your productivity all from your browser using local storage.
+A local task management application designed to help you organize and track your to-do items with ease. Create tasks with detailed information, set priorities, assign due dates and times, and manage your productivity all from your browser using local browser's storage.
 
 The application stores all data locally on your device, ensuring your tasks remain private and accessible offline.
 
 This repository has been migrated from JavaScript to **TypeScript** to improve type-safety and maintainability; the source files are in `src/` with `.ts` extensions.
+The compiled distribution files are inside `dict/`.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Features
 
 - **Create Tasks** — Add new tasks with a simple form interface
-- **Task Details** — Include task title, description, due date, due time, and priority level (Low, Normal, High)
-- **Edit Tasks** — Modify existing tasks with an intuitive edit/save toggle
+- **Task Details** — Include task, due datetime, and priority level (Low, Normal, High)
+- **Edit Tasks** — Modify existing tasks with an intuitive edit and save toggle
 - **Delete Tasks** — Remove tasks with confirmation to prevent accidental deletion
 - **Local Storage** — All tasks are saved to your browser's localStorage for persistence across sessions
 - **Responsive UI** — Clean, grid-based interface with visual feedback for user actions
@@ -107,37 +108,33 @@ webpack.config.js     # Webpack configuration (includes ts-loader)
 
 ### Installation
 
-1. Clone the repository:
+1. Using the bash terminal within your project directory, clone the repository:
    ```bash
    git clone https://github.com/MriteshAdak/To-Do-List.git
    cd To-Do-List
    ```
 
-2. Install dependencies:
+2. Now, install dependencies of the project:
    ```bash
    npm install
    ```
 
-3. Start the development server (hot-reload):
+3. After installation, start the development server:
    ```bash
    npm run dev
    ```
 
-4. Open your browser and navigate to the local server address (typically `http://localhost:8080`)
+4. Once the development server is live, open your browser and navigate to the local server address (typically `http://localhost:8080`)
 
-5. To build a production bundle:
-   ```bash
-   npm run build
-   ```
+NOTE: The built distribution filed are already inside `dist/`. You can alternatively just open `index.html`
+
 
 ### Usage
 
 1. Click **"+ Add List"** to create a new task form
 2. Fill in the task details:
-   - **Title** — Task name
-   - **Description** — Additional details
+   - **Task** — Task name
    - **Due Date** — When the task is due
-   - **Due Time** — Specific time for the task
    - **Priority** — Select Low, Normal, or High
 3. Click **Save** (💾) to store the task
 4. Click **Edit** (✏️) to modify an existing task
